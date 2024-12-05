@@ -45,14 +45,19 @@ async function run() {
         res.send(result);
     })
 
+    // get all movies
+    app.get('/allmovies', async(req,res)=>{
+        const allMovie = dataCollection.find();
+        const result = await allMovie.toArray();
+        res.send(result);
+    })
+
   } catch {
     // await client.close();
     console.log(error);
   }
 }
 run();
-
-
 
 
 app.get('/', (req, res) => {
