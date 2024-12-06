@@ -60,6 +60,14 @@ async function run() {
       res.send(result);
     })
 
+    // delete movie
+    app.delete('/movie/delete/:id', async(req,res)=>{
+      const id = req.params.id;
+      const filter = { _id : new ObjectId(id)};
+      const result = await dataCollection.deleteOne(filter);
+      res.send(result);
+    })
+
     // create favourite
     app.post('/favourite',async(req,res) =>{
       const favourite = req.body;
@@ -74,6 +82,14 @@ async function run() {
       const allFav = favCollection.find(filter);
       const result = await allFav.toArray();
       res.send(result); 
+    })
+
+    // delete favourite
+    app.delete('/favourite/delete/:id', async(req,res)=>{
+      const id = req.params.id;
+      const filter = { _id : new ObjectId(id)};
+      const result = await favCollection.deleteOne(filter);
+      res.send(result);
     })
 
   } catch {
