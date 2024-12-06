@@ -23,22 +23,22 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
 
-    await client.connect();
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    // await client.connect();
+    // await client.db("admin").command({ ping: 1 });
+    // console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
     const database = client.db('movieDB');
     const dataCollection = database.collection('movies');
+    const favCollection = database.collection('favouriteMovie');
 
     // movie post
     app.post('/addmovie', async (req, res) => {
       const movie = req.body;
-      console.log(movie);
       const result = await dataCollection.insertOne(movie);
       res.send(result);
     });
 
-    // get feater data
+    // get feature data
     app.get('/feature', async (req, res) => {
       const feature = dataCollection.find({ rating: 10 }).limit(6);
       const result = await feature.toArray();
@@ -52,12 +52,28 @@ async function run() {
       res.send(result);
     })
 
-    // get movie id
+    // get movie by id
     app.get('/details/:id', async (req, res) => {
       const id = req.params.id;
       const selected = { _id: new ObjectId(id) };
       const result = await dataCollection.findOne(selected);
       res.send(result);
+    })
+
+    // create favourite
+    app.post('/favourite',async(req,res) =>{
+      const favourite = req.body;
+      const result = await favCollection.insertOne(favourite);
+      res.send(result);
+    })
+
+    // get favourite
+    app.get('/favourite/:email', async(req,res)=>{
+      const email = req.params.email;
+      const filter = {email};
+      const allFav = favCollection.find(filter);
+      const result = await allFav.toArray();
+      res.send(result); 
     })
 
   } catch {
