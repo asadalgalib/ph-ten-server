@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 5000;
@@ -31,25 +31,33 @@ async function run() {
     const dataCollection = database.collection('movies');
 
     // movie post
-    app.post('/addmovie', async(req,res)=>{
-        const movie = req.body;
-        console.log(movie);
-        const result = await dataCollection.insertOne(movie);
-        res.send(result);
+    app.post('/addmovie', async (req, res) => {
+      const movie = req.body;
+      console.log(movie);
+      const result = await dataCollection.insertOne(movie);
+      res.send(result);
     });
 
     // get feater data
-    app.get('/feature', async(req,res)=>{
-        const feature = dataCollection.find({ rating: 10 }).limit(6);
-        const result = await feature.toArray();
-        res.send(result);
+    app.get('/feature', async (req, res) => {
+      const feature = dataCollection.find({ rating: 10 }).limit(6);
+      const result = await feature.toArray();
+      res.send(result);
     })
 
     // get all movies
-    app.get('/allmovies', async(req,res)=>{
-        const allMovie = dataCollection.find();
-        const result = await allMovie.toArray();
-        res.send(result);
+    app.get('/allmovies', async (req, res) => {
+      const allMovie = dataCollection.find();
+      const result = await allMovie.toArray();
+      res.send(result);
+    })
+
+    // get movie id
+    app.get('/details/:id', async (req, res) => {
+      const id = req.params.id;
+      const selected = { _id: new ObjectId(id) };
+      const result = await dataCollection.findOne(selected);
+      res.send(result);
     })
 
   } catch {
@@ -61,9 +69,9 @@ run();
 
 
 app.get('/', (req, res) => {
-    res.send('Welcome to assignment ten server');
+  res.send('Welcome to assignment ten server');
 })
 
-app.listen(port,(req,res)=>{
-    console.log(`app is running on PORT : ${port}`);
+app.listen(port, (req, res) => {
+  console.log(`app is running on PORT : ${port}`);
 })
