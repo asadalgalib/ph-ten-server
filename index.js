@@ -40,7 +40,7 @@ async function run() {
 
     // get feature data
     app.get('/feature', async (req, res) => {
-      const feature = dataCollection.find({ rating: 10 }).limit(6);
+      const feature = dataCollection.find().sort({ rating: -1 }).limit(6);
       const result = await feature.toArray();
       res.send(result);
     })
@@ -61,33 +61,33 @@ async function run() {
     })
 
     // delete movie
-    app.delete('/movie/delete/:id', async(req,res)=>{
+    app.delete('/movie/delete/:id', async (req, res) => {
       const id = req.params.id;
-      const filter = { _id : new ObjectId(id)};
+      const filter = { _id: new ObjectId(id) };
       const result = await dataCollection.deleteOne(filter);
       res.send(result);
     })
 
     // create favourite
-    app.post('/favourite',async(req,res) =>{
+    app.post('/favourite', async (req, res) => {
       const favourite = req.body;
       const result = await favCollection.insertOne(favourite);
       res.send(result);
     })
 
     // get favourite
-    app.get('/favourite/:email', async(req,res)=>{
+    app.get('/favourite/:email', async (req, res) => {
       const email = req.params.email;
-      const filter = {email};
+      const filter = { email };
       const allFav = favCollection.find(filter);
       const result = await allFav.toArray();
-      res.send(result); 
+      res.send(result);
     })
 
     // delete favourite
-    app.delete('/favourite/delete/:id', async(req,res)=>{
+    app.delete('/favourite/delete/:id', async (req, res) => {
       const id = req.params.id;
-      const filter = { _id : new ObjectId(id)};
+      const filter = { _id: new ObjectId(id) };
       const result = await favCollection.deleteOne(filter);
       res.send(result);
     })
