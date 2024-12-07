@@ -60,6 +60,30 @@ async function run() {
       res.send(result);
     })
 
+    // update movie 
+    app.put('/upsert/:id', async (req, res) => {
+      const id = req.params.id;
+      const update = req.body;
+      console.log(update);
+      const filter = { _id: new ObjectId(id) };
+      const option = { upsert: true };
+      
+      const updateDoc = {
+        $set: {
+          poster: update.poster,
+          title: update.title,
+          selectOption: update.selectOption,
+          duration: update.duration,
+          year: update.year,
+          rating: update.rating,
+          summary: update.summary
+        },
+      };
+      console.log(updateDoc);
+      const result = await dataCollection.updateOne(filter, option, updateDoc);
+      res.send(result);
+    })
+
     // delete movie
     app.delete('/movie/delete/:id', async (req, res) => {
       const id = req.params.id;
