@@ -40,7 +40,7 @@ async function run() {
 
     // get feature data
     app.get('/feature', async (req, res) => {
-      const feature = dataCollection.find().sort({ rating: -1 }).limit(6);
+      const feature = dataCollection.find().sort({ rating: -1 }).limit(8);
       const result = await feature.toArray();
       res.send(result);
     })
