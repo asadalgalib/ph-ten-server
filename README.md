@@ -20,3 +20,23 @@ A server used with MongoDB for a Movie Streaming website.
 - Used dotenv
 - Used mongoDB 
 - Used vercel
+
+<h2 align="left">Guidelines</h2>
+
+###
+
+<p align="left">To run this project locally  : </p> 
+
+- npm i for package install<br>
+- collect .env file or create a mongoDB database and use user name and pass word <br>
+- use a json web token secret
+
+###
+
+<h2 align="left">Links</h2>
+
+###
+
+<p align="left">Live Link : https://assignment-eleven-server-amber.vercel.app/</p>
+
+###
