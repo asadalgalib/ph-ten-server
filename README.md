@@ -29,7 +29,7 @@ A server used with MongoDB for a Movie Streaming website.
 
 - npm i for package install<br>
 - collect .env file or create a mongoDB database and use user name and pass word <br>
-- use a json web token secret
+- nodemon index.js
 
 ###
 
